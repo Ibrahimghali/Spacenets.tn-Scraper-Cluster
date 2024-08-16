@@ -1,4 +1,4 @@
-# Spacenets.tn-Scraper
+# Spacenets Scrapy Spider
 
 ## Overview
 
@@ -16,39 +16,22 @@ The Spacenets Scrapy Spider is a web scraper designed to extract laptop data fro
 
    ```bash
    git clone https://github.com/yourusername/spacenets-spider.git
-Navigate to the Project Directory:
 
-bash
+   cd spacenets-spider
 
-cd spacenets-spider
-Create and Activate a Virtual Environment (optional but recommended):
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-bash
+   pip install -r requirements.txt
 
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-Install Dependencies:
-
-bash
-Copy code
-pip install -r requirements.txt
 Usage
 Run the Spider:
-
-bash
-Copy code
 scrapy crawl spacespider
-Save Output to a File:
 
-To save the scraped data to a JSON file, use the following command:
-
-bash
-Copy code
+Save Output to a File: To save the scraped data to a JSON file, use the following command:
 scrapy crawl spacespider -o output.json
 
-spacenets/spiders/spacespider.py: Contains the main spider code.
-spacenets/items.py: Defines the data structure for the scraped items.
-requirements.txt: Lists the Python packages required for the project.
+
 Configuration
 Modify spacenets/settings.py to configure Scrapy settings such as user agents, download delays, and more.
 
@@ -60,8 +43,3 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 Contact
 For any questions, please contact your email.
-
-csharp
-Copy code
-
-You can copy the contents of this file into your project’s Python and Markdown files as needed.
