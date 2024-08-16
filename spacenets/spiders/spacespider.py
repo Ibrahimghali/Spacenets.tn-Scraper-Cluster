@@ -1,19 +1,28 @@
 import scrapy
 from spacenets.items import SpacenetsItem  
+
 class SpacespiderSpider(scrapy.Spider):
     name = 'spacespider'
     allowed_domains = ['spacenet.tn']
     start_urls = ['https://spacenet.tn/74-pc-portable-tunisie']
 
     def parse(self, response):
+        # Extracts each laptop item from the page
         laptops = response.css('div.item.col-xs-6.col-sm-4.col-md-3.col-lg-3')
         for laptop in laptops:
             absolute_url = laptop.css('h2.product_name a::attr(href)').get()
-            yield response.follow(absolute_url, callback=self.parse_laptop_page)
+            if absolute_url is not None:
+                yield response.follow(response.urljoin(absolute_url), callback=self.parse_laptop_page)
         
-        next_page = response.css('li a.js-search-link::attr(href)').get()
-        if next_page is not None:
-            yield response.follow(next_page, callback=self.parse)
+        # Get all the href values
+        hrefs = response.css('li a.js-search-link::attr(href)').getall()
+        
+        if hrefs:
+            # Access the last element
+            last_href = hrefs[-1]
+            if last_href is not None:
+                # Follows the link to the next page and calls parse again
+                yield response.follow(response.urljoin(last_href), callback=self.parse)
 
     def parse_laptop_page(self, response):
         item = SpacenetsItem()
