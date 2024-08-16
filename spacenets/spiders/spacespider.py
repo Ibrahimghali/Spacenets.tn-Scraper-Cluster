@@ -1,5 +1,5 @@
 import scrapy
-from your_project_name.items import SpacenetsItem  # replace 'your_project_name' with your actual project name
+from spacenets.items import SpacenetsItem  # replace 'your_project_name' with your actual project name
 
 class SpacespiderSpider(scrapy.Spider):
     name = 'spacespider'
