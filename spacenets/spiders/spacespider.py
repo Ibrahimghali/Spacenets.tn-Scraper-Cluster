@@ -1,32 +1,36 @@
 import scrapy
-from spacenets.items import SpacenetsItem  
+from spacenets.items import SpacenetsItem  # Import the item class defined in the items.py file to store the scraped data
 
 class SpacespiderSpider(scrapy.Spider):
-    name = 'spacespider'
-    allowed_domains = ['spacenet.tn']
-    start_urls = ['https://spacenet.tn/74-pc-portable-tunisie']
+    name = 'spacespider'  # Name of the spider, used when running the spider
+    allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
+    start_urls = ['https://spacenet.tn/74-pc-portable-tunisie']  # Starting URL for the spider
 
     def parse(self, response):
-        # Extracts each laptop item from the page
+        # Extracts each laptop item from the page using CSS selectors
         laptops = response.css('div.item.col-xs-6.col-sm-4.col-md-3.col-lg-3')
         for laptop in laptops:
+            # Extracts the URL of each laptop's detail page
             absolute_url = laptop.css('h2.product_name a::attr(href)').get()
             if absolute_url is not None:
+                # Follows the link to the laptop's detail page and calls parse_laptop_page method to process the page
                 yield response.follow(response.urljoin(absolute_url), callback=self.parse_laptop_page)
         
-        # Get all the href values
+        # Get all the href values for pagination links
         hrefs = response.css('li a.js-search-link::attr(href)').getall()
         
         if hrefs:
-            # Access the last element
+            # Access the last element of the pagination links
             last_href = hrefs[-1]
             if last_href is not None:
-                # Follows the link to the next page and calls parse again
+                # Follows the link to the next page of laptops and calls parse method again to continue scraping
                 yield response.follow(response.urljoin(last_href), callback=self.parse)
 
     def parse_laptop_page(self, response):
+        # Create an instance of SpacenetsItem to store the scraped data
         item = SpacenetsItem()
         
+        # Extract various attributes of the laptop from the page using CSS selectors and store them in the item
         item['name'] = response.css('h1::text').get()
         item['price'] = response.css('div.current-price span::attr(content)').get()
         item['formatted_price'] = response.css('div.current-price span::text').get()
@@ -47,4 +51,5 @@ class SpacespiderSpider(scrapy.Spider):
         item['graphics_card_ref'] = response.css('dt.name:contains("Réf Carte Graphique") + dd.value::text').get()
         item['pc_range'] = response.css('dt.name:contains("Gamme PC") + dd.value::text').get()
 
+        # Yield the item to the pipeline for further processing
         yield item
