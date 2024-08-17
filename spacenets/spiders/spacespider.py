@@ -67,27 +67,27 @@ class SpacespiderSpider(scrapy.Spider):
 
 
 
-    def parse_computer_page(self, response):
-        item = ComputerItem()
-        # Populate fields specific to computers
-        item['name'] = response.css('h1::text').get()
-        item['price'] = response.css('div.current-price span::attr(content)').get()
-        item['formatted_price'] = response.css('div.current-price span::text').get()
-        item['Garranty'] = response.css('dt.name:contains("Garantie") + dd.value::text').get()
+    # def parse_computer_page(self, response):
+    #     item = ComputerItem()
+    #     # Populate fields specific to computers
+    #     item['name'] = response.css('h1::text').get()
+    #     item['price'] = response.css('div.current-price span::attr(content)').get()
+    #     item['formatted_price'] = response.css('div.current-price span::text').get()
+    #     item['Garranty'] = response.css('dt.name:contains("Garantie") + dd.value::text').get()
         
-        item['screen_size'] = response.css('dt.name:contains("Taille de l\'écran") + dd.value::text').get()
-        item['brightness'] = response.css('dt.name:contains("Luminosité") + dd.value::text').get()
-        item['contrast_ratio'] = response.css('dt.name:contains("Rapport de contraste") + dd.value::text').get()
-        item['response_time'] = response.css('dt.name:contains("Temps de réponse") + dd.value::text').get()
-        item['screen_format'] = response.css('dt.name:contains("Format") + dd.value::text').get()
-        item['connectors'] = response.css('dt.name:contains("Connecteur") + dd.value::text').get()
-        item['color'] = response.css('dt.name:contains("Couleur") + dd.value::text').get()
-        item['panel_type'] = response.css('dt.name:contains("Type de panneau") + dd.value::text').get()
-        item['touchscreen'] = response.css('dt.name:contains("Tactile") + dd.value::text').get()
-        item['gamer'] = response.css('dt.name:contains("Gamer") + dd.value::text').get()
-        item['refresh_rate'] = response.css('dt.name:contains("Taux de Rafraîchissement") + dd.value::text').get()
+    #     item['screen_size'] = response.css('dt.name:contains("Taille de l\'écran") + dd.value::text').get()
+    #     item['brightness'] = response.css('dt.name:contains("Luminosité") + dd.value::text').get()
+    #     item['contrast_ratio'] = response.css('dt.name:contains("Rapport de contraste") + dd.value::text').get()
+    #     item['response_time'] = response.css('dt.name:contains("Temps de réponse") + dd.value::text').get()
+    #     item['screen_format'] = response.css('dt.name:contains("Format") + dd.value::text').get()
+    #     item['connectors'] = response.css('dt.name:contains("Connecteur") + dd.value::text').get()
+    #     item['color'] = response.css('dt.name:contains("Couleur") + dd.value::text').get()
+    #     item['panel_type'] = response.css('dt.name:contains("Type de panneau") + dd.value::text').get()
+    #     item['touchscreen'] = response.css('dt.name:contains("Tactile") + dd.value::text').get()
+    #     item['gamer'] = response.css('dt.name:contains("Gamer") + dd.value::text').get()
+    #     item['refresh_rate'] = response.css('dt.name:contains("Taux de Rafraîchissement") + dd.value::text').get()
 
-        # Yield the item to the pipeline for further processing
-        yield item
+    #     # Yield the item to the pipeline for further processing
+    #     yield item
 
     

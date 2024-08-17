@@ -4,6 +4,8 @@ class CommonSpider(scrapy.Spider):
     # Other methods and properties
 
     def handle_pagination(self, response, callback):
+
+        print("handling the pagination success")
         # Extract the pagination links
         hrefs = response.css('li a.js-search-link::attr(href)').getall()
         

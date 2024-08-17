@@ -1,20 +1,45 @@
+import scrapy
 from spacenets.items import LaptopItem
-from spacenets.spiders.common_spider import CommonSpider
 
-class LaptopSpider(CommonSpider):
+class LaptopSpider(scrapy.Spider):
     name = 'laptop_spider'
     start_urls = ['https://spacenet.tn/18-ordinateur-portable']
 
     def parse(self, response):
+        # Extract laptop items
         laptops = response.css('div.item.col-xs-6.col-sm-4.col-md-3.col-lg-3')
         for laptop in laptops:
             url = laptop.css('h2.product_name a::attr(href)').get()
             if url:
                 yield response.follow(url, callback=self.parse_laptop_page)
-        self.handle_pagination(response, self.parse)
+        
+         # Handle pagination
+        yield from self.handle_pagination(response)
+
+
+
+    def handle_pagination(self, response):
+        # Print debug information
+        print("Handling pagination...")
+
+        # Extract the pagination links
+        hrefs = response.css('li a.js-search-link::attr(href)').getall()
+        print("Pagination links extracted:", hrefs)
+
+        if hrefs is not None:
+            # Access the last element of the pagination links
+            last_href = hrefs[-1]
+            if last_href:
+                # Follow the link to the next page
+                yield response.follow(response.urljoin(last_href), callback=self.parse)
+            else:
+                print("No last href found")
+        else:
+            print("No pagination links found")
+    
 
     def parse_laptop_page(self, response):
-        # Create an instance of SpacenetsItem to store the scraped data
+        # Create an instance of LaptopItem to store the scraped data
         item = LaptopItem()
         
         # Extract various attributes of the laptop from the page using CSS selectors and store them in the item
@@ -44,3 +69,5 @@ class LaptopSpider(CommonSpider):
 
         # Yield the item to the pipeline for further processing
         yield item
+
+    
