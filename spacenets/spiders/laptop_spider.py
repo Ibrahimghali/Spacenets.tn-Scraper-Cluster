@@ -1,41 +1,41 @@
 import scrapy
 from spacenets.items import LaptopItem
 
-class LaptopSpider(scrapy.Spider):
+from spacenets.spiders.common_spider import CommonSpider
+
+class LaptopSpider(CommonSpider):
     name = 'laptop_spider'
     start_urls = ['https://spacenet.tn/18-ordinateur-portable']
 
     def parse(self, response):
-        # Extract laptop items
         laptops = response.css('div.item.col-xs-6.col-sm-4.col-md-3.col-lg-3')
         for laptop in laptops:
             url = laptop.css('h2.product_name a::attr(href)').get()
             if url:
                 yield response.follow(url, callback=self.parse_laptop_page)
-        
-         # Handle pagination
-        yield from self.handle_pagination(response)
+        # Handle pagination
+        yield from self.handle_pagination(response, self.parse)
 
 
 
-    def handle_pagination(self, response):
-        # Print debug information
-        print("Handling pagination...")
+    # def handle_pagination(self, response):
+    #     # Print debug information
+    #     print("Handling pagination...")
 
-        # Extract the pagination links
-        hrefs = response.css('li a.js-search-link::attr(href)').getall()
-        print("Pagination links extracted:", hrefs)
+    #     # Extract the pagination links
+    #     hrefs = response.css('li a.js-search-link::attr(href)').getall()
+    #     print("Pagination links extracted:", hrefs)
 
-        if hrefs is not None:
-            # Access the last element of the pagination links
-            last_href = hrefs[-1]
-            if last_href:
-                # Follow the link to the next page
-                yield response.follow(response.urljoin(last_href), callback=self.parse)
-            else:
-                print("No last href found")
-        else:
-            print("No pagination links found")
+    #     if hrefs is not None:
+    #         # Access the last element of the pagination links
+    #         last_href = hrefs[-1]
+    #         if last_href:
+    #             # Follow the link to the next page
+    #             yield response.follow(response.urljoin(last_href), callback=self.parse)
+    #         else:
+    #             print("No last href found")
+    #     else:
+    #         print("No pagination links found")
     
 
     def parse_laptop_page(self, response):
