@@ -31,13 +31,5 @@ class LaptopItem(ProductItem):
     graphics_card_ref = scrapy.Field()
     pc_range = scrapy.Field()
 
-class ComputerItem(ProductItem):
-    # Define fields specific to computers
-    brightness = scrapy.Field()
-    contrast_ratio = scrapy.Field()
-    response_time = scrapy.Field()
-    screen_format = scrapy.Field()
-    connectors = scrapy.Field()
-    panel_type = scrapy.Field()
-    refresh_rate = scrapy.Field()
+
 
