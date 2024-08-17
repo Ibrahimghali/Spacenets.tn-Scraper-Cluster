@@ -6,8 +6,7 @@ class SpacespiderSpider(scrapy.Spider):
     allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
     start_urls = [
         'https://spacenet.tn/18-ordinateur-portable',
-        'https://spacenet.tn/73-ordinateur-bureau-tunisie',
-        'https://spacenet.tn/145-serveurs-cloud-informatique-tunisie'
+        'https://spacenet.tn/73-ordinateur-bureau-tunisie'
     ]  # Starting URLs for the spider
 
     def parse(self, response):
@@ -50,15 +49,17 @@ class SpacespiderSpider(scrapy.Spider):
         item['memory'] = response.css('dt.name:contains("Mémoire") + dd.value::text').get()
         item['ports'] = response.css('dt.name:contains("Ports") + dd.value::text').get()
         item['wireless_connectivity'] = response.css('dt.name:contains("Connectivité sans-fil") + dd.value::text').get()
-        item['Garranty'] = response.css('dt.name:contains("Garantie") + dd.value::text').get()
+        
         item['screen_size'] = response.css('dt.name:contains("Taille de l\'écran") + dd.value::text').get()
         item['processor_type'] = response.css('dt.name:contains("Type de Processeur") + dd.value::text').get()
         item['hard_drive'] = response.css('dt.name:contains("Disque Dur") + dd.value::text').get()
         item['cache'] = response.css('dt.name:contains("Cache") + dd.value::text').get()
+
         item['graphics_card'] = response.css('dt.name:contains("Carte Graphique") + dd.value::text').get()
         item['processor_details'] = response.css('dt.name:contains("processeur") + dd.value::text').get()
         item['color'] = response.css('dt.name:contains("Couleur") + dd.value::text').get()
         item['touchscreen'] = response.css('dt.name:contains("Tactile") + dd.value::text').get()
+        
         item['gamer'] = response.css('dt.name:contains("Gamer") + dd.value::text').get()
         item['graphics_card_ref'] = response.css('dt.name:contains("Réf Carte Graphique") + dd.value::text').get()
         item['pc_range'] = response.css('dt.name:contains("Gamme PC") + dd.value::text').get()
@@ -91,21 +92,4 @@ class SpacespiderSpider(scrapy.Spider):
         # Yield the item to the pipeline for further processing
         yield item
 
-    def parse_server_page(self, response):
-        item = ServerItem()
-        # Populate fields specific to servers
-        item['name'] = response.css('h1::text').get()
-        item['price'] = response.css('div.current-price span::attr(content)').get()
-        item['formatted_price'] = response.css('div.current-price span::text').get()
-        item['Garranty'] = response.css('dt.name:contains("Garantie") + dd.value::text').get()
-        
-        item['operating_system'] = response.css('dt.name:contains("Système d\'exploitation") + dd.value::text').get()
-        item['memory'] = response.css('dt.name:contains("Mémoire") + dd.value::text').get()
-        item['processor_type'] = response.css('dt.name:contains("Type de Processeur") + dd.value::text').get()
-        item['hard_drive'] = response.css('dt.name:contains("Disque Dur") + dd.value::text').get()
-        item['cache'] = response.css('dt.name:contains("Cache") + dd.value::text').get()
-        item['graphics_card'] = response.css('dt.name:contains("Carte Graphique") + dd.value::text').get()
-        item['frequency_processor'] = response.css('dt.name:contains("Fréquence Processeur") + dd.value::text').get()
-        item['number_of_processors'] = response.css('dt.name:contains("Nombre de processeurs") + dd.value::text').get()
-        item['server_format'] = response.css('dt.name:contains("Format Serveur") + dd.value::text').get()
-        yield item
+    
