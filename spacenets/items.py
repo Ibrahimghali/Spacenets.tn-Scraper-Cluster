@@ -5,11 +5,9 @@ class ProductItem(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
     formatted_price = scrapy.Field()
-    warranty = scrapy.Field()
-    screen_size = scrapy.Field()
-    color = scrapy.Field()
-    touchscreen = scrapy.Field()
-    gamer = scrapy.Field()
+    Garranty = scrapy.Field()
+    
+    
 
 class LaptopItem(ProductItem):
     # Define fields specific to laptops
@@ -17,11 +15,19 @@ class LaptopItem(ProductItem):
     memory = scrapy.Field()
     ports = scrapy.Field()
     wireless_connectivity = scrapy.Field()
+
+    screen_size = scrapy.Field()
     processor_type = scrapy.Field()
     hard_drive = scrapy.Field()
+
     cache = scrapy.Field()
     graphics_card = scrapy.Field()
     processor_details = scrapy.Field()
+    
+    color = scrapy.Field()
+    touchscreen = scrapy.Field()
+    gamer = scrapy.Field()
+    
     graphics_card_ref = scrapy.Field()
     pc_range = scrapy.Field()
 
@@ -34,3 +40,4 @@ class ComputerItem(ProductItem):
     connectors = scrapy.Field()
     panel_type = scrapy.Field()
     refresh_rate = scrapy.Field()
+
