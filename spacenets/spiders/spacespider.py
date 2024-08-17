@@ -1,5 +1,5 @@
 import scrapy
-from spacenets.items import ComputerItem, LaptopItem, ServerItem  # Import the item class defined in the items.py file to store the scraped data
+from spacenets.items import ComputerItem, LaptopItem # Import the item class defined in the items.py file to store the scraped data
 
 class SpacespiderSpider(scrapy.Spider):
     name = 'spacespider'  # Name of the spider, used when running the spider
