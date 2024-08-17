@@ -33,3 +33,16 @@ class LaptopItem(ProductItem):
 
 
 
+class AirConditionerItem(ProductItem):
+    
+    couleur = scrapy.Field()
+    mode = scrapy.Field()
+    capacite = scrapy.Field()
+    inverter = scrapy.Field()
+    type_climatiseur = scrapy.Field()
+    smart = scrapy.Field()
+    classe_temperatures = scrapy.Field()
+
+
+
+

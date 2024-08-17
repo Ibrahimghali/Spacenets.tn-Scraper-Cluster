@@ -6,7 +6,7 @@ class LaptopSpider(CommonSpider):
     name = 'laptop_spider'
     start_urls = ['https://spacenet.tn/18-ordinateur-portable']
 
-    def parse_item_page(self, response):
+    def parse_laptop_page(self, response):
         """
         Method to parse detailed information from a laptop page.
         This method is specific to the LaptopSpider and handles fields relevant to laptops.
@@ -17,6 +17,7 @@ class LaptopSpider(CommonSpider):
         item['formatted_price'] = response.css('div.current-price span::text').get()
         item['Garranty'] = response.css('dt.name:contains("Garantie") + dd.value::text').get()
         item['operating_system'] = response.css('dt.name:contains("Système d\'exploitation") + dd.value::text').get()
+
         item['memory'] = response.css('dt.name:contains("Mémoire") + dd.value::text').get()
         item['ports'] = response.css('dt.name:contains("Ports") + dd.value::text').get()
         item['wireless_connectivity'] = response.css('dt.name:contains("Connectivité sans-fil") + dd.value::text').get()

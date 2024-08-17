@@ -10,7 +10,13 @@ class CommonSpider(scrapy.Spider):
         for item in items:
             url = item.css('h2.product_name a::attr(href)').get()
             if url:
-                yield response.follow(url, callback=self.parse_item_page)
+                # Determine the callback based on the URL or other page content
+                if 'ordinateur-portable' in response.url:
+                    # It's a laptop
+                    yield response.follow(url, callback=self.parse_laptop_page)
+                elif 'climatiseur-tunisie-chaud-froid' in response.url:
+                    # It's an air conditioner
+                    yield response.follow(url, callback=self.parse_air_conditioner_page)
         
         # Handle pagination
         yield from self.handle_pagination(response, self.parse)
