@@ -1,13 +1,11 @@
 import scrapy
-from spacenets.items import ComputerItem, LaptopItem # Import the item class defined in the items.py file to store the scraped data
+from spacenets.items import LaptopItem # Import the item class defined in the items.py file to store the scraped data
 
 class SpacespiderSpider(scrapy.Spider):
     name = 'spacespider'  # Name of the spider, used when running the spider
     allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
     start_urls = [
-        'https://spacenet.tn/18-ordinateur-portable',
-        'https://spacenet.tn/73-ordinateur-bureau-tunisie'
-    ]  # Starting URLs for the spider
+        'https://spacenet.tn/18-ordinateur-portable']  # Starting URLs for the spider
 
     def parse(self, response):
         # Extract each item from the page using CSS selectors
