@@ -27,6 +27,7 @@ class LaptopSpider(CommonSpider):
         # Handle pagination to move to the next page, if available
         yield from self.handle_pagination(response, self.parse)
     
+    
     def parse_laptop_page(self, response):
         """
         Method to parse the details of an individual laptop.
