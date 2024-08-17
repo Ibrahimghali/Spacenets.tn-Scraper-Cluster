@@ -1,17 +1,10 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
 
-class SpacenetsItem(scrapy.Item):
-    # define the fields for your item here like:
+class LaptopItem(scrapy.Item):
+    # Define fields specific to laptops
     name = scrapy.Field()
     price = scrapy.Field()
     formatted_price = scrapy.Field()
-    description = scrapy.Field()
-    availability = scrapy.Field()
     operating_system = scrapy.Field()
     memory = scrapy.Field()
     ports = scrapy.Field()
@@ -28,3 +21,21 @@ class SpacenetsItem(scrapy.Item):
     gamer = scrapy.Field()
     graphics_card_ref = scrapy.Field()
     pc_range = scrapy.Field()
+
+class ComputerItem(scrapy.Item):
+    # Define fields specific to computers
+    name = scrapy.Field()
+    price = scrapy.Field()
+    formatted_price = scrapy.Field()
+    warranty = scrapy.Field()
+    screen_size = scrapy.Field()
+    brightness = scrapy.Field()
+    contrast_ratio = scrapy.Field()
+    response_time = scrapy.Field()
+    screen_format = scrapy.Field()
+    connectors = scrapy.Field()
+    color = scrapy.Field()
+    panel_type = scrapy.Field()
+    touchscreen = scrapy.Field()
+    gamer = scrapy.Field()
+    refresh_rate = scrapy.Field()
