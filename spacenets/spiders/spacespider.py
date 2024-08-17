@@ -4,7 +4,7 @@ from spacenets.items import SpacenetsItem  # Import the item class defined in th
 class SpacespiderSpider(scrapy.Spider):
     name = 'spacespider'  # Name of the spider, used when running the spider
     allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
-    start_urls = ['https://spacenet.tn/74-pc-portable-tunisie']  # Starting URL for the spider
+    start_urls = ['https://spacenet.tn/18-ordinateur-portable']  # Starting URL for the spider
 
     def parse(self, response):
         # Extracts each laptop item from the page using CSS selectors
