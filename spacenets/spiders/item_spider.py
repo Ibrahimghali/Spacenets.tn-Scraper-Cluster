@@ -1,13 +1,43 @@
 import scrapy
 #from spacenets.items import LaptopItem
 from spacenets.items import ProductFeaturesItem
-from spacenets.spiders.common_spider import CommonSpider
 
-class LaptopSpider(CommonSpider):
-    name = 'laptop_spider'
+
+class ItemSpider(scrapy.Spider):
+    name = 'spacenets_spider'
+    allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
     start_urls = ['https://spacenet.tn/18-ordinateur-portable']
+    
 
-    def parse_laptop_page(self, response):
+    def parse(self, response):
+        """
+        General parsing method to extract items from a category page.
+        This method can be reused by various spiders handling different categories.
+        """
+        items = response.css('div.item.col-xs-6.col-sm-4.col-md-3.col-lg-3')
+        for item in items:
+            url = item.css('h2.product_name a::attr(href)').get()
+
+            if url is not None:
+                # Determine the callback based on the URL or other page content    
+                yield response.follow(url, callback=self.parse_item_page)
+            
+        # Handle pagination
+        yield from self.handle_pagination(response, self.parse)
+
+    def handle_pagination(self, response, callback):
+        """
+        Handle pagination across category pages.
+        """
+        print("Handling pagination...")
+        hrefs = response.css('li a.js-search-link::attr(href)').getall()
+        if hrefs:
+            last_href = hrefs[-1]
+            if last_href:
+                yield response.follow(response.urljoin(last_href), callback=callback)
+
+
+    def parse_item_page(self, response):
 
         """
         Method to parse detailed information from a laptop page.
