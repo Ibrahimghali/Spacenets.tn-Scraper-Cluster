@@ -6,7 +6,11 @@ from spacenets.items import ProductFeaturesItem
 class ItemSpider(scrapy.Spider):
     name = 'spacenets_spider'
     allowed_domains = ['spacenet.tn']  # Domain names that the spider is allowed to scrape
-    start_urls = ['https://spacenet.tn/18-ordinateur-portable']
+    start_urls = ['https://spacenet.tn/18-ordinateur-portable',
+                  'https://spacenet.tn/145-serveurs-cloud-informatique-tunisie',
+                  'https://spacenet.tn/8-imprimante-tunisie',
+                  'https://spacenet.tn/132-meuble-de-bureau'
+                  ]
     
 
     def parse(self, response):
