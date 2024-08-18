@@ -14,9 +14,9 @@ class CommonSpider(scrapy.Spider):
                 if 'ordinateur-portable' in response.url:
                     # It's a laptop
                     yield response.follow(url, callback=self.parse_laptop_page)
-                elif 'climatiseur-tunisie-chaud-froid' in response.url:
+                elif 'climatisation-chauffage' in response.url:
                     # It's an air conditioner
-                    yield response.follow(url, callback=self.parse_air_conditioner_page)
+                    yield response.follow(url, callback=self.parse_climatisation_chauffage_page)
         
         # Handle pagination
         yield from self.handle_pagination(response, self.parse)
