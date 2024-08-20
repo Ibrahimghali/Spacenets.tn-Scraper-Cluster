@@ -4,8 +4,7 @@ This project is a web scraper built using the Scrapy framework. It is designed t
 
 ## Project Structure
 
-Spacenets.tn-Scraper/
-
+    Spacenets.tn-Scraper/
     ├── README.md            # Project documentation
     ├── scrapy.cfg           # Scrapy configuration file
     └── spacenets            # Main project directory
