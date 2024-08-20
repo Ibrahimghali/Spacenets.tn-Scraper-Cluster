@@ -1,43 +1,25 @@
-Here’s a `README.md` file for your `Spacenets.tn-Scraper` project:
-
-```markdown
 # Spacenets.tn-Scraper
 
 This project is a web scraper built using the Scrapy framework. It is designed to extract data from the Spacenets.tn website, which sells various electronic products, including air conditioners, laptops, servers, and more. The scraped data is stored in a JSON file and can be further processed for analysis or other uses.
 
 ## Project Structure
 
-```
-.
-├── README.md          # Project documentation
-├── scrapy.cfg         # Scrapy configuration file
-└── spacenets          # Main project directory
-    ├── __init__.py    # Initialize the spacenets module
-    ├── items.py       # Defines the data structure for scraped items
-    ├── middlewares.py # Custom middlewares (if any)
-    ├── output.json    # Output file for storing scraped data in JSON format
-    ├── pipelines.py   # Handles the processing of scraped items
-    ├── __pycache__    # Cached files
-    │   ├── __init__.cpython-310.pyc
-    │   ├── items.cpython-310.pyc
-    │   ├── pipelines.cpython-310.pyc
-    │   └── settings.cpython-310.pyc
-    ├── settings.py    # Scrapy settings configuration
-    └── spiders        # Directory containing spider definitions
-        ├── cleaned_data.json          # Cleaned data after post-processing
-        ├── __init__.py                # Initialize the spiders module
-        ├── item_spider.py             # Spider for extracting item-specific data
-        └── __pycache__
-            ├── air_conditioner_spider.cpython-310.pyc
-            ├── climatisation_chauffageair_spider.cpython-310.pyc
-            ├── common_spider.cpython-310.pyc
-            ├── computer_spider.cpython-310.pyc
-            ├── __init__.cpython-310.pyc
-            ├── item_spider.cpython-310.pyc
-            ├── laptop_spider.cpython-310.pyc
-            ├── server_spider.cpython-310.pyc
-            └── spacespider.cpython-310.pyc
-```
+Spacenets.tn-Scraper/
+├── README.md # Project documentation
+├── scrapy.cfg # Scrapy configuration file
+└── spacenets # Main project directory
+├── init.py # Initialize the spacenets module
+├── items.py # Defines the data structure for scraped items
+├── middlewares.py # Custom middlewares (if any)
+├── output.json # Output file for storing scraped data in JSON format
+├── pipelines.py # Handles the processing of scraped items
+├── pycache/ # Cached files
+├── settings.py # Scrapy settings configuration
+└── spiders/ # Directory containing spider definitions
+├── init.py # Initialize the spiders module
+├── item_spider.py # Spider for extracting item-specific data
+├── cleaned_data.json # Cleaned data after post-processing
+└── pycache/ # Cached files for spiders
 
 ### Files and Directories
 
@@ -50,8 +32,8 @@ This project is a web scraper built using the Scrapy framework. It is designed t
   - **pipelines.py**: Contains the item pipeline to process and clean the scraped data.
   - **settings.py**: Configuration settings for the Scrapy project.
   - **spiders**: Directory containing all the spider scripts responsible for scraping different parts of the website.
-    - **cleaned_data.json**: Cleaned version of the scraped data.
     - **item_spider.py**: Spider that scrapes specific item details like prices, availability, etc.
+    - **cleaned_data.json**: Cleaned version of the scraped data.
 
 ### How to Use
 
@@ -85,7 +67,3 @@ If you'd like to contribute to this project, feel free to fork the repository an
 ### License
 
 This project is licensed under the MIT License.
-
-```
-
-This `README.md` provides an overview of the project, its structure, and instructions on how to use it. Make sure to update any placeholders like `<repository_url>` with actual values relevant to your project.
