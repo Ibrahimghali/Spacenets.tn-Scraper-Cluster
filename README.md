@@ -5,21 +5,22 @@ This project is a web scraper built using the Scrapy framework. It is designed t
 ## Project Structure
 
 Spacenets.tn-Scraper/
-├── README.md # Project documentation
-├── scrapy.cfg # Scrapy configuration file
-└── spacenets # Main project directory
-├── init.py # Initialize the spacenets module
-├── items.py # Defines the data structure for scraped items
-├── middlewares.py # Custom middlewares (if any)
-├── output.json # Output file for storing scraped data in JSON format
-├── pipelines.py # Handles the processing of scraped items
-├── pycache/ # Cached files
-├── settings.py # Scrapy settings configuration
-└── spiders/ # Directory containing spider definitions
-├── init.py # Initialize the spiders module
-├── item_spider.py # Spider for extracting item-specific data
-├── cleaned_data.json # Cleaned data after post-processing
-└── pycache/ # Cached files for spiders
+├── README.md            # Project documentation
+├── scrapy.cfg           # Scrapy configuration file
+└── spacenets            # Main project directory
+    ├── __init__.py      # Initialize the spacenets module
+    ├── items.py         # Defines the data structure for scraped items
+    ├── middlewares.py   # Custom middlewares (if any)
+    ├── output.json      # Output file for storing scraped data in JSON format
+    ├── pipelines.py     # Handles the processing of scraped items
+    ├── __pycache__/     # Cached files
+    ├── settings.py      # Scrapy settings configuration
+    └── spiders/         # Directory containing spider definitions
+        ├── __init__.py                  # Initialize the spiders module
+        ├── item_spider.py               # Spider for extracting item-specific data
+        ├── cleaned_data.json            # Cleaned data after post-processing
+        └── __pycache__/                 # Cached files for spiders
+
 
 ### Files and Directories
 
