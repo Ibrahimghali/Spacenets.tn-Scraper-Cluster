@@ -41,7 +41,7 @@ This project is a web scraper built using the Scrapy framework. It is designed t
 1. **Clone the Repository**: Clone the project repository to your local machine.
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/Ibrahimghali/Spacenets.tn-Scraper.git
     cd Spacenets.tn-Scraper
     ```
 
