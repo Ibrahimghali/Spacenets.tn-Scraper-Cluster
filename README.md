@@ -54,10 +54,8 @@ This project is a web scraper built using the Scrapy framework. It is designed t
 3. **Run a Spider**: To start scraping, run a specific spider using the Scrapy command.
 
     ```bash
-    scrapy crawl <spider_name> -o output.json
+    scrapy crawl spacenets_spider -o output.json
     ```
-
-    Replace `<spider_name>` with the name of the spider you want to run, such as `item_spider`.
 
 4. **View the Output**: The scraped data will be saved in the `output.json` file in the `spacenets` directory.
 
