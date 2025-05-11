@@ -73,6 +73,20 @@ services:
     command: scrapy crawl spacenets_spider
 
   # Redis Commander - Web UI for Redis monitoring
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    restart: unless-stopped
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=admin
+      - HTTP_PASSWORD=admin123  # Change this to a secure password
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - scrapy-network
 
   portainer:
     image: portainer/portainer-ce:latest
