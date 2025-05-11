@@ -1,68 +1,144 @@
-# Spacenets.tn-Scraper
+# Spacenets.tn Distributed Scraper
 
-This project is a web scraper built using the Scrapy framework. It is designed to extract data from the Spacenets.tn website, which sells various electronic products, including air conditioners, laptops, servers, and more. The scraped data is stored in a JSON file and can be further processed for analysis or other uses.
+A high-performance, distributed web scraping system for Spacenets.tn, built with Scrapy, Redis, and Docker. This system leverages multiple scraper nodes working in parallel to efficiently extract product data.
+
+## System Architecture
+
+The system employs a distributed architecture with the following components:
+
+- **Redis Server**: Central coordination and data storage
+- **Scraper Nodes**: Independent workers sharing the crawling workload
+- **Redis Commander**: Web-based UI for monitoring Redis data
+- **Docker Compose**: Orchestrates all components
+
+```mermaid
+graph TD
+    A[Redis Server] <--> B[Scraper Node 1]
+    A <--> C[Scraper Node 2]
+    A <--> D[Scraper Node 3]
+    E[Redis Commander] --> A
+    F[User] --> E
+```
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Python 3.9+
+- Git
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ibrahimghali/Spacenets.tn-Scraper.git
+   cd Spacenets.tn-Scraper
+   ```
+
+2. Create a virtual environment and install dependencies:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+3. Create necessary directories:
+   ```bash
+   mkdir -p logs data
+   ```
+
+## Usage
+
+### Starting the Distributed Scraping System
+
+1. Start the Docker containers:
+   ```bash
+   cd docker
+   docker-compose up -d
+   ```
+
+2. Push initial URLs to Redis:
+   ```bash
+   python -m utils.push_urls_to_redis
+   ```
+
+3. Monitor scraping progress:
+   ```bash
+   python -m utils.check_redis --continuous
+   ```
+
+### Stopping the System
+
+To stop the system:
+```bash
+cd docker
+docker-compose down
+```
+
+### Monitoring Script
+
+The system includes a monitoring script:
+```bash
+python -m utils.check_redis --continuous --debug
+```
+
+This provides real-time statistics, including:
+
+- Pending URLs
+- Visited URLs
+- Processed Items
+- Queued Requests
+
+### Exporting Data
+
+When scraping is complete, export the data:
+```bash
+python -m utils.export_data
+```
 
 ## Project Structure
 
-    Spacenets.tn-Scraper/
-    ├── README.md            # Project documentation
-    ├── scrapy.cfg           # Scrapy configuration file
-    └── spacenets            # Main project directory
-        ├── __init__.py      # Initialize the spacenets module
-        ├── items.py         # Defines the data structure for scraped items
-        ├── middlewares.py   # Custom middlewares (if any)
-        ├── output.json      # Output file for storing scraped data in JSON format
-        ├── pipelines.py     # Handles the processing of scraped items
-        ├── __pycache__/     # Cached files
-        ├── settings.py      # Scrapy settings configuration
-        └── spiders/         # Directory containing spider definitions
-            ├── __init__.py                  # Initialize the spiders module
-            ├── item_spider.py               # Spider for extracting item-specific data
-            ├── cleaned_data.json            # Cleaned data after post-processing
-            └── __pycache__/                 # Cached files for spiders
+```
+Spacenets.tn-Scraper/
+├── docker/                     # Docker configuration
+│   ├── Dockerfile
+│   └── docker-compose.yml
+├── logs/                       # Log files directory
+├── data/                       # Data output directory
+├── utils/                      # Utility scripts
+│   ├── push_urls_to_redis.py   # Seeds Redis with URLs
+│   ├── check_redis.py          # Monitoring script
+│   └── export_data.py          # Data export script
+├── spacenets/                  # Scrapy project
+│   ├── spiders/
+│   │   └── item_spider.py      # Main spider
+│   ├── items.py                # Item definitions
+│   ├── pipelines.py            # Processing pipelines
+│   └── settings.py             # Scrapy settings
+├── requirements.txt            # Python dependencies
+└── scrapy.cfg                  # Scrapy configuration
+```
 
+## Performance Tuning
 
-### Files and Directories
+Optimize scraper performance by adjusting these parameters in `settings.py`:
 
-- **README.md**: This file, providing an overview of the project.
-- **scrapy.cfg**: Configuration file for the Scrapy project.
-- **spacenets**: The main directory containing the Scrapy project modules.
-  - **items.py**: Defines the data structure of the items being scraped.
-  - **middlewares.py**: Custom middlewares, if any, to process requests or responses.
-  - **output.json**: The output file where the scraped data is saved in JSON format.
-  - **pipelines.py**: Contains the item pipeline to process and clean the scraped data.
-  - **settings.py**: Configuration settings for the Scrapy project.
-  - **spiders**: Directory containing all the spider scripts responsible for scraping different parts of the website.
-    - **item_spider.py**: Spider that scrapes specific item details like prices, availability, etc.
-    - **cleaned_data.json**: Cleaned version of the scraped data.
+- `CONCURRENT_REQUESTS`: Number of concurrent requests per node
+- `DOWNLOAD_DELAY`: Delay between requests (in seconds)
+- `CONCURRENT_REQUESTS_PER_DOMAIN`: Limit concurrent requests to the same domain
 
-### How to Use
+## Contributing
 
-1. **Clone the Repository**: Clone the project repository to your local machine.
-
-    ```bash
-    git clone https://github.com/Ibrahimghali/Spacenets.tn-Scraper.git
-    cd Spacenets.tn-Scraper
-    ```
-
-2. **Install Dependencies**: Install the necessary dependencies. It's recommended to use a virtual environment.
-
-    ```bash
-    pip install scrapy
-    ```
-
-3. **Run a Spider**: To start scraping, run a specific spider using the Scrapy command.
-
-    ```bash
-    scrapy crawl spacenets_spider -o output.json
-    ```
-
-4. **View the Output**: The scraped data will be saved in the `output.json` file in the `spacenets` directory.
-
-### Contributing
-
-If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your changes.
-
-### License
-
-This project is licensed under the MIT License.
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -am 'Add some feature'
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Submit a pull request.
