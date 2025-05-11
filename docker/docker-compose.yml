@@ -21,8 +21,8 @@ services:
   # Scraper node 1
   scraper1:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: scraper-node-1
     depends_on:
       - redis
@@ -31,7 +31,7 @@ services:
       - REDIS_PORT=6379
       - SCRAPER_ID=1
     volumes:
-      - ./:/app
+      - ../:/app
     networks:
       - scrapy-network
     command: scrapy crawl spacenets_spider
@@ -39,8 +39,8 @@ services:
   # Scraper node 2
   scraper2:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: scraper-node-2
     depends_on:
       - redis
@@ -49,7 +49,7 @@ services:
       - REDIS_PORT=6379
       - SCRAPER_ID=2
     volumes:
-      - ./:/app
+      - ../:/app
     networks:
       - scrapy-network
     command: scrapy crawl spacenets_spider
@@ -57,8 +57,8 @@ services:
   # Scraper node 3
   scraper3:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: scraper-node-3
     depends_on:
       - redis
@@ -67,10 +67,24 @@ services:
       - REDIS_PORT=6379
       - SCRAPER_ID=3
     volumes:
-      - ./:/app
+      - ../:/app
     networks:
       - scrapy-network
     command: scrapy crawl spacenets_spider
+
+  # Redis Commander - Web UI for Redis monitoring
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - scrapy-network
 
 networks:
   scrapy-network:
@@ -78,3 +92,4 @@ networks:
 
 volumes:
   redis-data:
+  portainer_data:

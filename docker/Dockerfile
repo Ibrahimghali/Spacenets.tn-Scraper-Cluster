@@ -9,15 +9,18 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# Copy requirements first for better caching
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Create logs and data directories
+RUN mkdir -p /app/logs /app/data
 
 # Copy project files
 COPY . .
 
-# Use environment variables for configuration
-ENV PYTHONPATH=/app
-ENV SCRAPY_SETTINGS_MODULE=spacenets.settings
+# Set working directory where scrapy.cfg is located
+WORKDIR /app
 
+# Run the command
 CMD ["scrapy", "crawl", "spacenets_spider"]
