@@ -13,11 +13,6 @@ class SpacenetsPipeline:
         return item
     
 
-
-import re
-
-import re
-
 class DataCleaningPipeline:
     def process_item(self, item, spider):
         """

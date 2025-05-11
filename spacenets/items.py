@@ -5,6 +5,4 @@ class ProductFeaturesItem(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
     formatted_price = scrapy.Field()
-    
-    # Field for product features
     features = scrapy.Field()

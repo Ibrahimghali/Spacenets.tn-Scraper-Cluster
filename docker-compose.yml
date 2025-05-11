@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: spacenets-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --protected-mode no
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    networks:
+      - scrapy-network
+
+  # Scraper node 1
+  scraper1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scraper-node-1
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SCRAPER_ID=1
+    volumes:
+      - ./:/app
+    networks:
+      - scrapy-network
+    command: scrapy crawl spacenets_spider
+
+  # Scraper node 2
+  scraper2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scraper-node-2
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SCRAPER_ID=2
+    volumes:
+      - ./:/app
+    networks:
+      - scrapy-network
+    command: scrapy crawl spacenets_spider
+
+  # Scraper node 3
+  scraper3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scraper-node-3
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SCRAPER_ID=3
+    volumes:
+      - ./:/app
+    networks:
+      - scrapy-network
+    command: scrapy crawl spacenets_spider
+
+networks:
+  scrapy-network:
+    driver: bridge
+
+volumes:
+  redis-data:

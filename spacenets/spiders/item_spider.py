@@ -1,17 +1,15 @@
 import scrapy
+from scrapy_redis.spiders import RedisSpider
 from spacenets.items import ProductFeaturesItem
 
-class ItemSpider(scrapy.Spider):
+class ItemSpider(RedisSpider):
     name = 'spacenets_spider'
     allowed_domains = ['spacenet.tn']
     
-    #If you scrape another category you can just add its URL
-    start_urls = [
-        'https://spacenet.tn/18-ordinateur-portable',
-        'https://spacenet.tn/145-serveurs-cloud-informatique-tunisie',
-        'https://spacenet.tn/8-imprimante-tunisie',
-        'https://spacenet.tn/132-meuble-de-bureau'
-    ]
+    # Replace start_urls with redis_key
+    redis_key = 'spacenets:start_urls'
+    
+    # start_urls are now pushed to Redis separately
     
     def parse(self, response):
         """

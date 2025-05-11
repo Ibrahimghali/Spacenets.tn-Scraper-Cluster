@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for spacenets project
 #
 # For simplicity, this file contains only settings considered important or
@@ -25,7 +27,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -64,15 +66,16 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'spacenets.pipelines.DataCleaningPipeline': 300,
+    'scrapy_redis.pipelines.RedisPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
@@ -86,3 +89,22 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# Use environment variables or defaults
+REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
+
+# Add unique logging for each scraper instance
+LOG_FILE = f"logs/scraper-{os.environ.get('SCRAPER_ID', 'local')}.log"
+
+# Enables scheduling storing requests queue in redis
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+
+# Don't cleanup redis queues, allows to pause/resume crawls
+SCHEDULER_PERSIST = True
+
+# Schedule requests using a priority queue
+SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
+
+# Ensure all spiders share same duplicates filter through redis
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
