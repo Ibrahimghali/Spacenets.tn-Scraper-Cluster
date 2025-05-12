@@ -8,14 +8,22 @@ The scraping system is designed around modular, autoscaling Scrapy nodes that in
 
 ### Key Components
 
-- **Scrapy Project**: Includes `items.py`, `middlewares.py`, `item_spider.py`, and `pipelines.py`.
-- **Redis Server**: Central queue and item store for scraper coordination.
-- **Redis Commander**: GUI for inspecting Redis contents.
-- **CLI Utilities**:
-   - `push_urls_to_redis.py`: Seeds the Redis queue with initial URLs.
-   - `check_redis.py`: Monitors scraper progress and stats.
-   - `export_data.py`: Extracts scraped data from Redis to files.
-- **Host Volumes**: Persistent storage for logs and scraped data.
+#### Scrapy Project
+- Includes `items.py`, `middlewares.py`, `item_spider.py`, and `pipelines.py`.
+
+#### Redis Server
+- Central queue and item store for scraper coordination.
+
+#### Redis Commander
+- GUI for inspecting Redis contents.
+
+#### CLI Utilities
+- `push_urls_to_redis.py`: Seeds the Redis queue with initial URLs.
+- `check_redis.py`: Monitors scraper progress and stats.
+- `export_data.py`: Extracts scraped data from Redis to files.
+
+#### Host Volumes
+- Persistent storage for logs and scraped data.
 
 ## Architecture Diagram
 
@@ -45,42 +53,60 @@ The following diagram visualizes the internal workflow:
 ## Installation
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/Ibrahimghali/Spacenets.tn-Scraper.git
-    cd Spacenets.tn-Scraper
-    ```
+      ```bash
+      git clone https://github.com/Ibrahimghali/Spacenets.tn-Scraper.git
+      cd Spacenets.tn-Scraper
+      ```
 
 2. Create a virtual environment and install dependencies:
-    ```bash
-    python -m venv .venv
-    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-    pip install -r requirements.txt
-    ```
+      ```bash
+      python -m venv .venv
+      source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+      pip install -r requirements.txt
+      ```
 
 3. Create necessary directories:
-    ```bash
-    mkdir -p logs data
-    ```
+      ```bash
+      mkdir -p logs data
+      ```
+
+## System Architecture
+
+The system employs a distributed architecture with the following components:
+
+- **Redis Server**: Central coordination and data storage
+- **Scraper Nodes**: Independent workers sharing the crawling workload
+- **Redis Commander**: Web-based UI for monitoring Redis data
+- **Docker Compose**: Orchestrates all components
+
+```mermaid
+graph TD
+    A[Redis Server] <--> B[Scraper Node 1]
+    A <--> C[Scraper Node 2]
+    A <--> D[Scraper Node 3]
+    E[Redis Commander] --> A
+    F[User] --> E
+```
 
 ## Usage
 
 ### Starting the Distributed Scraping System
 
 1. Start the Docker containers:
-    ```bash
-    cd docker
-    docker-compose up -d
-    ```
+      ```bash
+      cd docker
+      docker-compose up -d
+      ```
 
 2. Push initial URLs to Redis:
-    ```bash
-    python -m utils.push_urls_to_redis
-    ```
+      ```bash
+      python -m utils.push_urls_to_redis
+      ```
 
 3. Monitor scraping progress:
-    ```bash
-    python -m utils.check_redis --continuous
-    ```
+      ```bash
+      python -m utils.check_redis --continuous
+      ```
 
 ### Stopping the System
 
